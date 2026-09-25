@@ -57,14 +57,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const me = await authApi.me();
       setUser(me);
     } catch (err: any) {
-      if ((email.toLowerCase().includes('chiranjeevi') || email.toLowerCase().includes('chiru')) && password === '12345678') {
-        const demoToken = 'demo-admin-token-chiranjeevi';
+      const lower = email.toLowerCase().trim();
+      if ((lower.includes('chiranjeevi') || lower.includes('chiru')) && password === '12345678') {
+        const isKumar = lower.includes('kumar');
+        const adminEmail = isKumar ? 'chiranjeevikumar@gmail.com' : 'chiranjeevi4205@gmail.com';
+        const adminUser = isKumar ? 'chiranjeevikumar' : 'chiranjeevi';
+        const demoToken = `token-admin-${adminUser}`;
         localStorage.setItem('token', demoToken);
         setToken(demoToken);
         setUser({
-          id: 'be000031-d0e3-49cf-9544-859b365ebf8d',
-          email: 'chiranjeevi4205@gmail.com',
-          username: 'chiranjeevi',
+          id: isKumar ? '752caf06-763d-46f2-8b3c-02a4be73f3bf' : 'be000031-d0e3-49cf-9544-859b365ebf8d',
+          email: adminEmail,
+          username: adminUser,
         });
         return;
       }

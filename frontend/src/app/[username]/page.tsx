@@ -267,35 +267,6 @@ export default function PublicPortfolioPage() {
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          {isAdmin ? (
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <span className="badge" style={{ background: 'rgba(16, 185, 129, 0.15)', color: '#6ee7b7', borderColor: 'rgba(16, 185, 129, 0.4)', padding: '6px 12px', fontSize: 11 }}>
-                👑 Admin (Chiranjeevi)
-              </span>
-              <a href="/dashboard" style={{ textDecoration: 'none' }}>
-                <button className="btn-secondary" style={{ padding: '7px 12px', fontSize: 12 }}>
-                  Dashboard ↗
-                </button>
-              </a>
-              <button
-                className="btn-secondary"
-                style={{ padding: '7px 10px', fontSize: 12, color: 'var(--text-muted)' }}
-                onClick={() => {
-                  localStorage.removeItem('token');
-                  setIsAdmin(false);
-                }}
-                title="Sign out of admin mode"
-              >
-                Logout
-              </button>
-            </div>
-          ) : (
-            <a href="/login" style={{ textDecoration: 'none' }}>
-              <button className="btn-secondary" style={{ padding: '7px 12px', fontSize: 12, color: 'var(--text-muted)', border: '1px solid rgba(255,255,255,0.08)' }}>
-                Admin Sign In
-              </button>
-            </a>
-          )}
           <button
             id="nav-ask-ai-btn"
             className="btn-secondary"

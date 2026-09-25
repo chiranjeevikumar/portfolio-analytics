@@ -17,7 +17,6 @@ export default function HomePage() {
         </div>
         <div style={{ display: 'flex', gap: 12 }}>
           <Link href="/chiru"><button className="btn-primary" style={{ padding: '8px 20px', fontSize: 14 }}>View Portfolio →</button></Link>
-          <Link href="/login"><button className="btn-secondary" style={{ padding: '8px 20px', fontSize: 14 }}>Admin Sign In</button></Link>
         </div>
       </nav>
 
@@ -34,8 +33,7 @@ export default function HomePage() {
           Live showcase and visitor intelligence dashboard for <strong>Chiranjeevi Kumar Battula</strong> — AI/ML Engineer at KPMG.
         </p>
         <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>
-          <Link href="/chiru"><button className="btn-primary" style={{ padding: '16px 32px', fontSize: 16 }}>Explore Chiranjeevi&apos;s Portfolio →</button></Link>
-          <Link href="/login"><button className="btn-secondary" style={{ padding: '16px 32px', fontSize: 16 }}>Admin Dashboard Sign In</button></Link>
+          <Link href="/chiru"><button className="btn-primary" style={{ padding: '16px 36px', fontSize: 16 }}>Explore Chiranjeevi&apos;s Portfolio →</button></Link>
         </div>
       </section>
 
@@ -102,8 +100,8 @@ export default function HomePage() {
         <div className="glass-card" style={{ maxWidth: 600, margin: '0 auto', padding: '56px 40px' }}>
           <div style={{ fontSize: 48, marginBottom: 16 }}>🚀</div>
           <h2 style={{ fontSize: 32, fontWeight: 800, marginBottom: 16, letterSpacing: '-0.02em' }}>Ready to go beyond a static resume?</h2>
-          <p style={{ color: 'var(--text-secondary)', marginBottom: 32 }}>Create your portfolio in 5 minutes. Start getting insights immediately.</p>
-          <Link href="/register"><button className="btn-primary" style={{ padding: '16px 40px', fontSize: 16 }}>Get started free →</button></Link>
+          <p style={{ color: 'var(--text-secondary)', marginBottom: 32 }}>Built with FastAPI + Next.js. Ready for production visitor intelligence.</p>
+          <Link href="/chiru"><button className="btn-primary" style={{ padding: '16px 40px', fontSize: 16 }}>Explore Portfolio & Demos →</button></Link>
         </div>
       </section>
 

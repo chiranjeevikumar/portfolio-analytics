@@ -45,8 +45,8 @@ export default function PublicPortfolioPage() {
   const projectViewStart = useRef<Record<string, number>>({});
   const chatBottomRef = useRef<HTMLDivElement>(null);
 
-  const CHATBOT_VIDEO_URL = "https://drive.google.com/file/d/1jBRp8Fk57g53QlLJ_GFHjx0bpMuzmF6m/preview";
-  const AVATAR_VIDEO_URL = "https://drive.google.com/file/d/1fYNGoZCNc0HASzLmBcSsLqpkNKtpVq62/preview";
+  const CHATBOT_VIDEO_URL = "https://drive.google.com/file/d/1E0GfJeKill4x0T1mlvxkdJ84hO0Ba7I0/preview";
+  const AVATAR_VIDEO_URL = "https://drive.google.com/file/d/1Zomc_bbUgwp4ACBjF0BU_9d2nm-I_OOo/preview";
   const CHATBOT_LIVE_URL = "https://chatbot-git-main-chiranjeevikumarbattula-4691.vercel.app/chat";
 
   useEffect(() => {
@@ -748,7 +748,7 @@ export default function PublicPortfolioPage() {
                           </button>
                         </a>
                       )}
-                      <a href="https://drive.google.com/file/d/1jBRp8Fk57g53QlLJ_GFHjx0bpMuzmF6m/view?usp=drive_link" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                      <a href="https://drive.google.com/file/d/1E0GfJeKill4x0T1mlvxkdJ84hO0Ba7I0/view?usp=sharing" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
                         <button className="btn-secondary" style={{ padding: '6px 12px', fontSize: 12 }}>
                           Full Screen ↗
                         </button>
@@ -837,7 +837,7 @@ export default function PublicPortfolioPage() {
                         <div style={{ fontSize: 11, color: '#c4b5fd' }}>Single image + voice cloning + audio-driven lip synchronization</div>
                       </div>
                     </div>
-                    <a href="https://drive.google.com/file/d/1fYNGoZCNc0HASzLmBcSsLqpkNKtpVq62/view?usp=sharing" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                    <a href="https://drive.google.com/file/d/1Zomc_bbUgwp4ACBjF0BU_9d2nm-I_OOo/view?usp=sharing" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
                       <button className="btn-secondary" style={{ padding: '6px 14px', fontSize: 12, borderColor: '#8b5cf6', color: '#c4b5fd' }}>
                         Full Screen ↗
                       </button>

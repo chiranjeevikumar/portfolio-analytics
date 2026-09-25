@@ -32,7 +32,7 @@ export const DEFAULT_CHIRU_PROJECTS: Project[] = [
       'Conversational AI', 'Multi-Session History', 'Long-Term Memory',
       'RAG Vector Retrieval', 'Context Management', 'ChatGPT-style Streaming', 'Guardrails'
     ],
-    demo_video_url: 'https://drive.google.com/file/d/1jBRp8Fk57g53QlLJ_GFHjx0bpMuzmF6m/preview',
+    demo_video_url: 'https://drive.google.com/file/d/1E0GfJeKill4x0T1mlvxkdJ84hO0Ba7I0/preview',
     github_url: 'https://github.com/chiranjeevikumar',
     live_url: 'https://chatbot-three-psi-79.vercel.app',
     order_index: 1,
@@ -49,9 +49,9 @@ export const DEFAULT_CHIRU_PROJECTS: Project[] = [
       'Single-Image Animation', 'Voice Cloning', 'Audio-Driven Lip Sync',
       'Face Enhancement', 'Audio/Video Synchronization', 'GPU Pipeline Orchestration'
     ],
-    demo_video_url: 'https://drive.google.com/file/d/1fYNGoZCNc0HASzLmBcSsLqpkNKtpVq62/preview',
+    demo_video_url: 'https://drive.google.com/file/d/1Zomc_bbUgwp4ACBjF0BU_9d2nm-I_OOo/preview',
     github_url: 'https://github.com/chiranjeevikumar',
-    live_url: 'https://drive.google.com/file/d/1fYNGoZCNc0HASzLmBcSsLqpkNKtpVq62/view?usp=sharing',
+    live_url: 'https://drive.google.com/file/d/1Zomc_bbUgwp4ACBjF0BU_9d2nm-I_OOo/view?usp=sharing',
     order_index: 2,
     is_featured: true,
     view_count: 0,

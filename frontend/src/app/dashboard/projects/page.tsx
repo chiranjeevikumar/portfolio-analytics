@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { projectsApi } from '@/lib/api';
 import type { Project } from '@/lib/api';
+import { DEFAULT_CHIRU_PROJECTS } from '@/lib/fallbackData';
 
 const emptyProject: Partial<Project> = {
   title: '', description: '', long_description: '',
@@ -12,8 +13,8 @@ const emptyProject: Partial<Project> = {
 };
 
 export default function ProjectsPage() {
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [projects, setProjects] = useState<Project[]>(DEFAULT_CHIRU_PROJECTS);
+  const [loading, setLoading] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [editing, setEditing] = useState<Project | null>(null);
   const [form, setForm] = useState<Partial<Project>>(emptyProject);
@@ -22,7 +23,14 @@ export default function ProjectsPage() {
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    projectsApi.getMine().then(setProjects).finally(() => setLoading(false));
+    projectsApi.getMine()
+      .then(pr => {
+        if (pr && pr.length > 0) setProjects(pr);
+      })
+      .catch(() => {
+        setProjects(DEFAULT_CHIRU_PROJECTS);
+      })
+      .finally(() => setLoading(false));
   }, []);
 
   function openCreate() {

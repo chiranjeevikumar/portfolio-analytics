@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { analyticsApi } from '@/lib/api';
 import type { Visitor } from '@/lib/api';
+import { DEFAULT_VISITORS } from '@/lib/fallbackData';
 
 const PAGE_LABELS: Record<string, { label: string; icon: string; color: string }> = {
   portfolio: { label: 'Viewed portfolio', icon: '👁️', color: '#6366f1' },
@@ -15,12 +16,19 @@ const PAGE_LABELS: Record<string, { label: string; icon: string; color: string }
 };
 
 export default function VisitorsPage() {
-  const [visitors, setVisitors] = useState<Visitor[]>([]);
+  const [visitors, setVisitors] = useState<Visitor[]>(DEFAULT_VISITORS);
   const [selected, setSelected] = useState<Visitor | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    analyticsApi.recentVisitors().then(setVisitors).finally(() => setLoading(false));
+    analyticsApi.recentVisitors()
+      .then(v => {
+        if (v && v.length > 0) setVisitors(v);
+      })
+      .catch(() => {
+        setVisitors(DEFAULT_VISITORS);
+      })
+      .finally(() => setLoading(false));
   }, []);
 
   function formatDate(iso: string) {

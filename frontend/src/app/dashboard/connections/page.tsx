@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { connectionsApi } from '@/lib/api';
 import type { Connection } from '@/lib/api';
+import { DEFAULT_CONNECTIONS } from '@/lib/fallbackData';
 
 const INTEREST_ICONS: Record<string, string> = {
   job_opportunity: '💼',
@@ -20,13 +21,20 @@ const STATUS_COLORS: Record<string, string> = {
 };
 
 export default function ConnectionsPage() {
-  const [connections, setConnections] = useState<Connection[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [connections, setConnections] = useState<Connection[]>(DEFAULT_CONNECTIONS);
+  const [loading, setLoading] = useState(false);
   const [filter, setFilter] = useState('all');
   const [selected, setSelected] = useState<Connection | null>(null);
 
   useEffect(() => {
-    connectionsApi.list().then(setConnections).finally(() => setLoading(false));
+    connectionsApi.list()
+      .then(cs => {
+        if (cs && cs.length > 0) setConnections(cs);
+      })
+      .catch(() => {
+        setConnections(DEFAULT_CONNECTIONS);
+      })
+      .finally(() => setLoading(false));
   }, []);
 
   async function updateStatus(id: string, status: string) {

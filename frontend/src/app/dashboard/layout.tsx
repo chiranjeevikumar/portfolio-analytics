@@ -7,11 +7,10 @@ import { useAuth } from '@/lib/auth-context';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const { user, logout } = useAuth();
-
-  const effectiveUser = user || {
+  const currentUser = user || {
     id: 'be000031-d0e3-49cf-9544-859b365ebf8d',
-    email: 'chiranjeevi4205@gmail.com',
     username: 'chiranjeevi',
+    email: 'chiranjeevi4205@gmail.com',
   };
 
   const navItems = [
@@ -47,10 +46,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         {/* User */}
         <div style={{ background: 'rgba(99,102,241,0.08)', border: '1px solid var(--border)', borderRadius: 10, padding: '12px 14px', marginBottom: 24 }}>
           <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'linear-gradient(135deg,#6366f1,#8b5cf6)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, fontWeight: 700, marginBottom: 6 }}>
-            {effectiveUser.username[0].toUpperCase()}
+            {currentUser.username[0].toUpperCase()}
           </div>
-          <div style={{ fontSize: 13, fontWeight: 600 }}>{effectiveUser.username}</div>
-          <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>{effectiveUser.email}</div>
+          <div style={{ fontSize: 13, fontWeight: 600 }}>{currentUser.username}</div>
+          <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>{currentUser.email}</div>
         </div>
 
         {/* Nav */}
@@ -67,7 +66,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
         {/* Public link */}
         <div style={{ borderTop: '1px solid var(--border)', paddingTop: 16, marginTop: 16 }}>
-          <Link href={`/${effectiveUser.username}`} target="_blank" style={{ textDecoration: 'none' }}>
+          <Link href={`/chiru`} target="_blank" style={{ textDecoration: 'none' }}>
             <div className="nav-item" style={{ background: 'rgba(99,102,241,0.06)' }}>
               <span>🌐</span>
               <span style={{ fontSize: 13 }}>View Portfolio</span>

@@ -3,23 +3,32 @@
 import { useEffect, useState } from 'react';
 import { profileApi } from '@/lib/api';
 import type { Profile } from '@/lib/api';
+import { DEFAULT_CHIRU_PROFILE } from '@/lib/fallbackData';
 import { useAuth } from '@/lib/auth-context';
 
 export default function SettingsPage() {
   const { user } = useAuth();
-  const [profile, setProfile] = useState<Profile | null>(null);
-  const [form, setForm] = useState<Partial<Profile>>({});
+  const [profile, setProfile] = useState<Profile | null>(DEFAULT_CHIRU_PROFILE);
+  const [form, setForm] = useState<Partial<Profile>>(DEFAULT_CHIRU_PROFILE);
   const [skillInput, setSkillInput] = useState('');
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<'profile' | 'contact' | 'notifications'>('profile');
 
   useEffect(() => {
-    profileApi.getMe().then(p => {
-      setProfile(p);
-      setForm(p);
-    }).finally(() => setLoading(false));
+    profileApi.getMe()
+      .then(p => {
+        if (p) {
+          setProfile(p);
+          setForm(p);
+        }
+      })
+      .catch(() => {
+        setProfile(DEFAULT_CHIRU_PROFILE);
+        setForm(DEFAULT_CHIRU_PROFILE);
+      })
+      .finally(() => setLoading(false));
   }, []);
 
   async function handleSave(e: React.FormEvent) {

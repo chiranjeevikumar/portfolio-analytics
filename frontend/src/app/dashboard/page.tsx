@@ -4,28 +4,28 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '@/lib/auth-context';
 import { analyticsApi } from '@/lib/api';
 import type { AnalyticsOverview, ActivityEvent, ChartRow } from '@/lib/api';
-import { DEFAULT_OVERVIEW, DEFAULT_CHART, DEFAULT_ACTIVITY } from '@/lib/fallbackData';
+import { DEFAULT_OVERVIEW, DEFAULT_ACTIVITY, DEFAULT_CHART } from '@/lib/fallbackData';
 import Link from 'next/link';
 
 export default function DashboardPage() {
   const { user } = useAuth();
-  const [overview, setOverview] = useState<AnalyticsOverview | null>(null);
-  const [activity, setActivity] = useState<ActivityEvent[]>([]);
-  const [chart, setChart] = useState<ChartRow[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [overview, setOverview] = useState<AnalyticsOverview | null>(DEFAULT_OVERVIEW);
+  const [activity, setActivity] = useState<ActivityEvent[]>(DEFAULT_ACTIVITY);
+  const [chart, setChart] = useState<ChartRow[]>(DEFAULT_CHART);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     Promise.all([
       analyticsApi.overview().catch(() => null),
-      analyticsApi.activityFeed().catch(() => []),
-      analyticsApi.chart(7).catch(() => []),
+      analyticsApi.activityFeed().catch(() => null),
+      analyticsApi.chart(7).catch(() => null),
     ]).then(([o, a, c]) => {
-      setOverview(o || (DEFAULT_OVERVIEW as any));
-      setActivity(a && a.length > 0 ? a : (DEFAULT_ACTIVITY as any));
-      setChart(c && c.length > 0 ? c : DEFAULT_CHART);
+      if (o) setOverview(o);
+      if (a && a.length > 0) setActivity(a);
+      if (c && c.length > 0) setChart(c);
     }).catch(() => {
-      setOverview(DEFAULT_OVERVIEW as any);
-      setActivity(DEFAULT_ACTIVITY as any);
+      setOverview(DEFAULT_OVERVIEW);
+      setActivity(DEFAULT_ACTIVITY);
       setChart(DEFAULT_CHART);
     }).finally(() => setLoading(false));
   }, []);

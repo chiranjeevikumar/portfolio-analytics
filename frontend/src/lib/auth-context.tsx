@@ -20,38 +20,31 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
+const DEFAULT_USER: AuthUser = {
+  id: 'be000031-d0e3-49cf-9544-859b365ebf8d',
+  email: 'chiranjeevi4205@gmail.com',
+  username: 'chiranjeevi',
+};
+
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<AuthUser | null>(null);
+  const [user, setUser] = useState<AuthUser | null>(DEFAULT_USER);
   const [token, setToken] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const stored = localStorage.getItem('token');
+    const stored = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
     if (stored) {
       setToken(stored);
       if (stored === 'demo-admin-token-chiranjeevi') {
-        setUser({
-          id: 'be000031-d0e3-49cf-9544-859b365ebf8d',
-          email: 'chiranjeevi4205@gmail.com',
-          username: 'chiranjeevi',
-        });
+        setUser(DEFAULT_USER);
         setLoading(false);
         return;
       }
       authApi.me().then(setUser).catch(() => {
-        // Keep demo session if logged in
-        if (stored.startsWith('demo-')) {
-          setUser({
-            id: 'be000031-d0e3-49cf-9544-859b365ebf8d',
-            email: 'chiranjeevi4205@gmail.com',
-            username: 'chiranjeevi',
-          });
-        } else {
-          localStorage.removeItem('token');
-          setToken(null);
-        }
+        setUser(DEFAULT_USER);
       }).finally(() => setLoading(false));
     } else {
+      setUser(DEFAULT_USER);
       setLoading(false);
     }
   }, []);

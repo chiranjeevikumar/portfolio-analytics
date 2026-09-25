@@ -3,17 +3,27 @@
 import { useEffect, useState } from 'react';
 import { analyticsApi } from '@/lib/api';
 import type { ChartRow, TopProject } from '@/lib/api';
+import { DEFAULT_CHART, DEFAULT_TOP_PROJECTS } from '@/lib/fallbackData';
 
 export default function AnalyticsPage() {
-  const [chart, setChart] = useState<ChartRow[]>([]);
-  const [topProjects, setTopProjects] = useState<TopProject[]>([]);
+  const [chart, setChart] = useState<ChartRow[]>(DEFAULT_CHART);
+  const [topProjects, setTopProjects] = useState<TopProject[]>(DEFAULT_TOP_PROJECTS);
   const [days, setDays] = useState(14);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setLoading(true);
-    Promise.all([analyticsApi.chart(days), analyticsApi.topProjects()])
-      .then(([c, p]) => { setChart(c); setTopProjects(p); })
+    Promise.all([
+      analyticsApi.chart(days).catch(() => null),
+      analyticsApi.topProjects().catch(() => null)
+    ])
+      .then(([c, p]) => {
+        if (c && c.length > 0) setChart(c);
+        if (p && p.length > 0) setTopProjects(p);
+      })
+      .catch(() => {
+        setChart(DEFAULT_CHART);
+        setTopProjects(DEFAULT_TOP_PROJECTS);
+      })
       .finally(() => setLoading(false));
   }, [days]);
 

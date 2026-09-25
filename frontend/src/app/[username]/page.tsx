@@ -27,6 +27,7 @@ export default function PublicPortfolioPage() {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [showConnect, setShowConnect] = useState(false);
   const [showAiChat, setShowAiChat] = useState(false);
   const [activeVideoModal, setActiveVideoModal] = useState<{ title: string; url: string } | null>(null);
@@ -50,6 +51,15 @@ export default function PublicPortfolioPage() {
 
   useEffect(() => {
     fingerprint.current = getVisitorFingerprint();
+
+    // Check admin authentication
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('token');
+      const searchParams = new URLSearchParams(window.location.search);
+      if (token || searchParams.get('admin') === 'true' || searchParams.get('mode') === 'admin') {
+        setIsAdmin(true);
+      }
+    }
 
     // Track portfolio page visit
     trackingApi.track({
@@ -257,6 +267,35 @@ export default function PublicPortfolioPage() {
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          {isAdmin ? (
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <span className="badge" style={{ background: 'rgba(16, 185, 129, 0.15)', color: '#6ee7b7', borderColor: 'rgba(16, 185, 129, 0.4)', padding: '6px 12px', fontSize: 11 }}>
+                👑 Admin (Chiranjeevi)
+              </span>
+              <a href="/dashboard" style={{ textDecoration: 'none' }}>
+                <button className="btn-secondary" style={{ padding: '7px 12px', fontSize: 12 }}>
+                  Dashboard ↗
+                </button>
+              </a>
+              <button
+                className="btn-secondary"
+                style={{ padding: '7px 10px', fontSize: 12, color: 'var(--text-muted)' }}
+                onClick={() => {
+                  localStorage.removeItem('token');
+                  setIsAdmin(false);
+                }}
+                title="Sign out of admin mode"
+              >
+                Logout
+              </button>
+            </div>
+          ) : (
+            <a href="/login" style={{ textDecoration: 'none' }}>
+              <button className="btn-secondary" style={{ padding: '7px 12px', fontSize: 12, color: 'var(--text-muted)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                Admin Sign In
+              </button>
+            </a>
+          )}
           <button
             id="nav-ask-ai-btn"
             className="btn-secondary"
@@ -451,16 +490,20 @@ export default function PublicPortfolioPage() {
                 >
                   ▶ Watch Demo
                 </button>
-                <a href={CHATBOT_LIVE_URL} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }} onClick={() => trackClick('live_demo_click', 'chatbot')}>
-                  <button className="btn-secondary" style={{ padding: '8px 16px', fontSize: 12, display: 'flex', alignItems: 'center', gap: 6, borderColor: 'rgba(99, 102, 241, 0.4)', color: '#c4b5fd' }}>
-                    🚀 Try Live App ↗
-                  </button>
-                </a>
-                <a href={githubUrl} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }} onClick={() => trackClick('github_click', 'chatbot')}>
-                  <button className="btn-secondary" style={{ padding: '8px 16px', fontSize: 12 }}>
-                    Code ↗
-                  </button>
-                </a>
+                {isAdmin && (
+                  <>
+                    <a href={CHATBOT_LIVE_URL} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }} onClick={() => trackClick('live_demo_click', 'chatbot')}>
+                      <button className="btn-secondary" style={{ padding: '8px 16px', fontSize: 12, display: 'flex', alignItems: 'center', gap: 6, borderColor: 'rgba(99, 102, 241, 0.4)', color: '#c4b5fd' }}>
+                        🚀 Try Live App ↗
+                      </button>
+                    </a>
+                    <a href={githubUrl} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }} onClick={() => trackClick('github_click', 'chatbot')}>
+                      <button className="btn-secondary" style={{ padding: '8px 16px', fontSize: 12 }}>
+                        Code ↗
+                      </button>
+                    </a>
+                  </>
+                )}
               </div>
             </div>
 
@@ -564,11 +607,13 @@ export default function PublicPortfolioPage() {
                 >
                   ▶ Watch Demo Video
                 </button>
-                <a href={githubUrl} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }} onClick={() => trackClick('github_click', 'avatar')}>
-                  <button className="btn-secondary" style={{ padding: '8px 16px', fontSize: 12 }}>
-                    Code ↗
-                  </button>
-                </a>
+                {isAdmin && (
+                  <a href={githubUrl} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }} onClick={() => trackClick('github_click', 'avatar')}>
+                    <button className="btn-secondary" style={{ padding: '8px 16px', fontSize: 12 }}>
+                      Code ↗
+                    </button>
+                  </a>
+                )}
               </div>
             </div>
 
@@ -643,11 +688,13 @@ export default function PublicPortfolioPage() {
                 </span>
                 <h3 style={{ fontSize: 24, fontWeight: 800 }}>Real-Time Edge Computer Vision & Video Analytics</h3>
               </div>
-              <a href={githubUrl} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }} onClick={() => trackClick('github_click', 'edge')}>
-                <button className="btn-secondary" style={{ padding: '8px 16px', fontSize: 12 }}>
-                  Code ↗
-                </button>
-              </a>
+              {isAdmin && (
+                <a href={githubUrl} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }} onClick={() => trackClick('github_click', 'edge')}>
+                  <button className="btn-secondary" style={{ padding: '8px 16px', fontSize: 12 }}>
+                    Code ↗
+                  </button>
+                </a>
+              )}
             </div>
 
             <p style={{ fontSize: 15, color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: 18 }}>
@@ -723,11 +770,13 @@ export default function PublicPortfolioPage() {
                       </div>
                     </div>
                     <div style={{ display: 'flex', gap: 8 }}>
-                      <a href={CHATBOT_LIVE_URL} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }} onClick={() => trackClick('live_demo_click', 'chatbot')}>
-                        <button className="btn-secondary" style={{ padding: '6px 14px', fontSize: 12, borderColor: '#6366f1', color: '#c4b5fd', display: 'flex', alignItems: 'center', gap: 4 }}>
-                          🚀 Open Live App ↗
-                        </button>
-                      </a>
+                      {isAdmin && (
+                        <a href={CHATBOT_LIVE_URL} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }} onClick={() => trackClick('live_demo_click', 'chatbot')}>
+                          <button className="btn-secondary" style={{ padding: '6px 14px', fontSize: 12, borderColor: '#6366f1', color: '#c4b5fd', display: 'flex', alignItems: 'center', gap: 4 }}>
+                            🚀 Open Live App ↗
+                          </button>
+                        </a>
+                      )}
                       <a href="https://drive.google.com/file/d/1jBRp8Fk57g53QlLJ_GFHjx0bpMuzmF6m/view?usp=drive_link" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
                         <button className="btn-secondary" style={{ padding: '6px 12px', fontSize: 12 }}>
                           Full Screen ↗
@@ -1176,18 +1225,20 @@ export default function PublicPortfolioPage() {
                               </div>
                             )}
                           </div>
-                          <div style={{ display: 'flex', gap: 6 }}>
-                            {proj.live_url && (
-                              <a href={proj.live_url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
-                                <button className="btn-secondary" style={{ padding: '4px 10px', fontSize: 11 }}>Demo ↗</button>
-                              </a>
-                            )}
-                            {proj.github_url && (
-                              <a href={proj.github_url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
-                                <button className="btn-secondary" style={{ padding: '4px 10px', fontSize: 11 }}>Code ↗</button>
-                              </a>
-                            )}
-                          </div>
+                          {isAdmin && (
+                            <div style={{ display: 'flex', gap: 6 }}>
+                              {proj.live_url && (
+                                <a href={proj.live_url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                                  <button className="btn-secondary" style={{ padding: '4px 10px', fontSize: 11 }}>Demo ↗</button>
+                                </a>
+                              )}
+                              {proj.github_url && (
+                                <a href={proj.github_url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                                  <button className="btn-secondary" style={{ padding: '4px 10px', fontSize: 11 }}>Code ↗</button>
+                                </a>
+                              )}
+                            </div>
+                          )}
                         </div>
                       ))}
                     </div>

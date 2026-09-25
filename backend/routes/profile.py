@@ -67,6 +67,7 @@ def update_profile(data: ProfileUpdate, current_user: dict = Depends(get_current
 @router.get("/{username}")
 def get_public_profile(username: str):
     """Public endpoint — no auth required."""
+    target_username = "chiranjeevi" if username.lower() in ("chiru", "chiranjeevi") else username
     with get_db() as conn:
         with get_cursor(conn) as cur:
             cur.execute(
@@ -74,7 +75,7 @@ def get_public_profile(username: str):
                           resume_url, linkedin_url, github_url, twitter_url, website_url,
                           email_contact, phone_contact, email_visible, phone_visible, skills
                    FROM profiles WHERE username=%s AND is_active=TRUE""",
-                (username,)
+                (target_username,)
             )
             profile = cur.fetchone()
     if not profile:

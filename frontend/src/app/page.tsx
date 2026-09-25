@@ -16,8 +16,8 @@ export default function HomePage() {
           <span style={{ fontWeight: 700, fontSize: 18, letterSpacing: '-0.02em' }}>PortfolioIQ</span>
         </div>
         <div style={{ display: 'flex', gap: 12 }}>
-          <Link href="/login"><button className="btn-secondary" style={{ padding: '8px 20px', fontSize: 14 }}>Sign In</button></Link>
-          <Link href="/register"><button className="btn-primary" style={{ padding: '8px 20px', fontSize: 14 }}>Get Started</button></Link>
+          <Link href="/chiru"><button className="btn-primary" style={{ padding: '8px 20px', fontSize: 14 }}>View Portfolio →</button></Link>
+          <Link href="/login"><button className="btn-secondary" style={{ padding: '8px 20px', fontSize: 14 }}>Admin Sign In</button></Link>
         </div>
       </nav>
 
@@ -31,11 +31,11 @@ export default function HomePage() {
           <span className="gradient-text">smartest salesperson</span>
         </h1>
         <p style={{ fontSize: 18, color: 'var(--text-secondary)', maxWidth: 600, margin: '0 auto 48px', lineHeight: 1.7 }}>
-          Share one link on LinkedIn. Know exactly who visited, what they viewed, how long they stayed, and turn anonymous visitors into real leads.
+          Live showcase and visitor intelligence dashboard for <strong>Chiranjeevi Kumar Battula</strong> — AI/ML Engineer at KPMG.
         </p>
         <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>
-          <Link href="/register"><button className="btn-primary" style={{ padding: '16px 32px', fontSize: 16 }}>Create your profile →</button></Link>
-          <Link href="/abc"><button className="btn-secondary" style={{ padding: '16px 32px', fontSize: 16 }}>See demo portfolio</button></Link>
+          <Link href="/chiru"><button className="btn-primary" style={{ padding: '16px 32px', fontSize: 16 }}>Explore Chiranjeevi&apos;s Portfolio →</button></Link>
+          <Link href="/login"><button className="btn-secondary" style={{ padding: '16px 32px', fontSize: 16 }}>Admin Dashboard Sign In</button></Link>
         </div>
       </section>
 

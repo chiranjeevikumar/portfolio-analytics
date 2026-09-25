@@ -40,6 +40,7 @@ class ProjectUpdate(BaseModel):
 @router.get("/public/{username}")
 def get_public_projects(username: str):
     """Public endpoint — returns active featured projects for a username."""
+    target_username = "chiranjeevi" if username.lower() in ("chiru", "chiranjeevi") else username
     with get_db() as conn:
         with get_cursor(conn) as cur:
             cur.execute(
@@ -57,7 +58,7 @@ def get_public_projects(username: str):
                    JOIN users u ON u.id = p.user_id
                    WHERE u.username=%s AND p.is_active=TRUE AND p.is_featured=TRUE
                    ORDER BY p.order_index ASC, p.created_at DESC""",
-                (username,)
+                (target_username,)
             )
             projects = cur.fetchall()
     return [dict(p) for p in projects]

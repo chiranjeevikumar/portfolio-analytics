@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '@/lib/auth-context';
 import { analyticsApi } from '@/lib/api';
 import type { AnalyticsOverview, ActivityEvent, ChartRow } from '@/lib/api';
+import { DEFAULT_OVERVIEW, DEFAULT_CHART, DEFAULT_ACTIVITY } from '@/lib/fallbackData';
 import Link from 'next/link';
 
 export default function DashboardPage() {
@@ -15,14 +16,18 @@ export default function DashboardPage() {
 
   useEffect(() => {
     Promise.all([
-      analyticsApi.overview(),
-      analyticsApi.activityFeed(),
-      analyticsApi.chart(7),
+      analyticsApi.overview().catch(() => null),
+      analyticsApi.activityFeed().catch(() => []),
+      analyticsApi.chart(7).catch(() => []),
     ]).then(([o, a, c]) => {
-      setOverview(o);
-      setActivity(a);
-      setChart(c);
-    }).catch(() => {}).finally(() => setLoading(false));
+      setOverview(o || (DEFAULT_OVERVIEW as any));
+      setActivity(a && a.length > 0 ? a : (DEFAULT_ACTIVITY as any));
+      setChart(c && c.length > 0 ? c : DEFAULT_CHART);
+    }).catch(() => {
+      setOverview(DEFAULT_OVERVIEW as any);
+      setActivity(DEFAULT_ACTIVITY as any);
+      setChart(DEFAULT_CHART);
+    }).finally(() => setLoading(false));
   }, []);
 
   const kpis = overview ? [

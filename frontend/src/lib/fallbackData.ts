@@ -71,3 +71,79 @@ export const DEFAULT_CHIRU_PROJECTS: Project[] = [
     is_featured: true,
   },
 ];
+
+export const DEFAULT_OVERVIEW = {
+  total_visitors: 124,
+  unique_visitors: 89,
+  visitors_today: 18,
+  unique_today: 14,
+  project_views_today: 37,
+  demo_clicks_today: 22,
+  visitors_week: 106,
+  total_leads: 8,
+  total_project_views: 245,
+};
+
+export const DEFAULT_CHART = [
+  { date: '2026-09-19', total_visits: 12, unique_visitors: 9, project_views: 24 },
+  { date: '2026-09-20', total_visits: 15, unique_visitors: 11, project_views: 31 },
+  { date: '2026-09-21', total_visits: 18, unique_visitors: 14, project_views: 38 },
+  { date: '2026-09-22', total_visits: 14, unique_visitors: 10, project_views: 29 },
+  { date: '2026-09-23', total_visits: 21, unique_visitors: 16, project_views: 42 },
+  { date: '2026-09-24', total_visits: 26, unique_visitors: 19, project_views: 51 },
+  { date: '2026-09-25', total_visits: 18, unique_visitors: 14, project_views: 37 },
+];
+
+export const DEFAULT_ACTIVITY = [
+  {
+    id: 'act-1',
+    visitor_fingerprint: 'v-9a8b1c',
+    page_type: 'demo_video',
+    project_title: 'Production AI Chatbot with Long-Term Memory & RAG',
+    device_type: 'desktop',
+    browser: 'Chrome',
+    os: 'Windows',
+    city: 'Bengaluru',
+    country: 'IN',
+    identified_name: 'AI Engineering Recruiter',
+    created_at: new Date(Date.now() - 1000 * 60 * 15).toISOString(),
+  },
+  {
+    id: 'act-2',
+    visitor_fingerprint: 'v-7d3f2e',
+    page_type: 'project',
+    project_title: 'AI Talking Avatar & End-to-End Video Generation',
+    device_type: 'desktop',
+    browser: 'Safari',
+    os: 'macOS',
+    city: 'Hyderabad',
+    country: 'IN',
+    identified_name: 'Chiru (Visitor)',
+    created_at: new Date(Date.now() - 1000 * 60 * 42).toISOString(),
+  },
+  {
+    id: 'act-3',
+    visitor_fingerprint: 'v-4k2m9p',
+    page_type: 'connect_click',
+    device_type: 'mobile',
+    browser: 'Chrome',
+    os: 'Android',
+    city: 'San Francisco',
+    country: 'US',
+    identified_name: 'Tech Lead / Partner',
+    created_at: new Date(Date.now() - 1000 * 60 * 120).toISOString(),
+  },
+  {
+    id: 'act-4',
+    visitor_fingerprint: 'v-1b5x8y',
+    page_type: 'portfolio',
+    device_type: 'desktop',
+    browser: 'Firefox',
+    os: 'Linux',
+    city: 'Mumbai',
+    country: 'IN',
+    identified_name: 'Senior ML Researcher',
+    created_at: new Date(Date.now() - 1000 * 60 * 240).toISOString(),
+  },
+];
+

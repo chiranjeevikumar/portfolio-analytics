@@ -1,8 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { query } from '@/lib/db';
+import { getServerUser } from '@/lib/auth-server';
 
 export async function GET(req: NextRequest) {
   try {
+    const user = getServerUser(req);
+    const username = user.username;
     const searchParams = req.nextUrl.searchParams;
     const days = parseInt(searchParams.get('days') || '14', 10);
 
@@ -22,10 +25,10 @@ export async function GET(req: NextRequest) {
          CURRENT_DATE,
          '1 day'::interval
        ) d
-       LEFT JOIN page_views pv ON pv.created_at::date = d::date
+       LEFT JOIN page_views pv ON pv.created_at::date = d::date AND pv.profile_username = $2
        GROUP BY d::date
        ORDER BY d::date ASC`,
-      [days]
+      [days, username]
     );
 
     const chartData = rows.map(r => ({

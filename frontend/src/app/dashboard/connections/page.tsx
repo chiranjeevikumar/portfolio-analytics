@@ -29,7 +29,7 @@ export default function ConnectionsPage() {
   useEffect(() => {
     connectionsApi.list()
       .then(cs => {
-        if (cs && cs.length > 0) setConnections(cs);
+        if (Array.isArray(cs)) setConnections(cs);
       })
       .catch(() => {
         setConnections(DEFAULT_CONNECTIONS);

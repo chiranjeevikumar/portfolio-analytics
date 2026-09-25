@@ -1,8 +1,12 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { query } from '@/lib/db';
+import { getServerUser } from '@/lib/auth-server';
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
+    const user = getServerUser(req);
+    const username = user.username;
+
     const visitors = await query<{
       id: string;
       country: string;
@@ -20,11 +24,12 @@ export async function GET() {
         identified_name, identified_email, visit_count,
         last_seen, first_seen
        FROM visitors
+       WHERE profile_username = $1
        ORDER BY last_seen DESC
-       LIMIT 50`
+       LIMIT 50`,
+      [username]
     );
 
-    // Fetch journeys for these visitors
     const visitorIds = visitors.map(v => v.id);
     let journeys: Record<string, any[]> = {};
 

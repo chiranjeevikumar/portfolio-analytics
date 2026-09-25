@@ -1,13 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { query } from '@/lib/db';
+import { getServerUser } from '@/lib/auth-server';
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
+    const user = getServerUser(req);
+    const username = user.username;
+
     const rows = await query(
       `SELECT id, name, email, interest_type, message, status, created_at
        FROM connections
+       WHERE profile_username = $1
        ORDER BY created_at DESC
-       LIMIT 50`
+       LIMIT 50`,
+      [username]
     );
     return NextResponse.json(rows);
   } catch (err: any) {
@@ -20,7 +26,7 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const {
-      profile_username = 'chiranjeevi',
+      profile_username = 'chiranjeevikumar',
       visitor_fingerprint,
       name,
       email,
@@ -32,7 +38,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Name and email are required' }, { status: 400 });
     }
 
-    // Find visitor_id by fingerprint if present
     let visitorId: string | null = null;
     if (visitor_fingerprint) {
       const v = await query<{ id: string }>(
@@ -41,7 +46,6 @@ export async function POST(req: NextRequest) {
       );
       if (v.length > 0) {
         visitorId = v[0].id;
-        // Update identified name/email
         await query(
           `UPDATE visitors SET identified_name = $1, identified_email = $2 WHERE id = $3`,
           [name, email, visitorId]
@@ -49,7 +53,6 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // Insert connection lead
     const result = await query(
       `INSERT INTO connections (profile_username, visitor_id, name, email, interest_type, message, status, created_at)
        VALUES ($1, $2, $3, $4, $5, $6, 'new', NOW())
@@ -57,7 +60,6 @@ export async function POST(req: NextRequest) {
       [profile_username, visitorId, name, email, interest_type, message]
     );
 
-    // Also record as a connect_click page view event
     await query(
       `INSERT INTO page_views (visitor_id, profile_username, page_type, metadata, created_at)
        VALUES ($1, $2, 'connect_click', $3, NOW())`,

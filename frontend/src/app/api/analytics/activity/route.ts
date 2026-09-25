@@ -1,8 +1,12 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { query } from '@/lib/db';
+import { getServerUser } from '@/lib/auth-server';
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
+    const user = getServerUser(req);
+    const username = user.username;
+
     const rows = await query<{
       id: string;
       page_type: string;
@@ -27,8 +31,10 @@ export async function GET() {
        FROM page_views pv
        LEFT JOIN visitors v ON v.id = pv.visitor_id
        LEFT JOIN projects p ON p.id = pv.project_id
+       WHERE pv.profile_username = $1
        ORDER BY pv.created_at DESC
-       LIMIT 30`
+       LIMIT 30`,
+      [username]
     );
 
     return NextResponse.json(rows);

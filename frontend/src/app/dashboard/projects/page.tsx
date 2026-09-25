@@ -25,7 +25,7 @@ export default function ProjectsPage() {
   useEffect(() => {
     projectsApi.getMine()
       .then(pr => {
-        if (pr && pr.length > 0) setProjects(pr);
+        if (Array.isArray(pr)) setProjects(pr);
       })
       .catch(() => {
         setProjects(DEFAULT_CHIRU_PROJECTS);

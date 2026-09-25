@@ -23,7 +23,7 @@ export default function VisitorsPage() {
   useEffect(() => {
     analyticsApi.recentVisitors()
       .then(v => {
-        if (v && v.length > 0) setVisitors(v);
+        if (Array.isArray(v)) setVisitors(v);
       })
       .catch(() => {
         setVisitors(DEFAULT_VISITORS);

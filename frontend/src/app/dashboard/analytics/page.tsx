@@ -17,8 +17,8 @@ export default function AnalyticsPage() {
       analyticsApi.topProjects().catch(() => null)
     ])
       .then(([c, p]) => {
-        if (c && c.length > 0) setChart(c);
-        if (p && p.length > 0) setTopProjects(p);
+        if (Array.isArray(c)) setChart(c);
+        if (Array.isArray(p)) setTopProjects(p);
       })
       .catch(() => {
         setChart(DEFAULT_CHART);

@@ -21,8 +21,8 @@ export default function DashboardPage() {
       analyticsApi.chart(7).catch(() => null),
     ]).then(([o, a, c]) => {
       if (o) setOverview(o);
-      if (a && a.length > 0) setActivity(a);
-      if (c && c.length > 0) setChart(c);
+      if (Array.isArray(a)) setActivity(a);
+      if (Array.isArray(c)) setChart(c);
     }).catch(() => {
       setOverview(DEFAULT_OVERVIEW);
       setActivity(DEFAULT_ACTIVITY);

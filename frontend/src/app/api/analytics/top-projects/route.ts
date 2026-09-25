@@ -1,8 +1,12 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { query } from '@/lib/db';
+import { getServerUser } from '@/lib/auth-server';
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
+    const user = getServerUser(req);
+    const userId = user.id;
+
     const rows = await query<{
       id: string;
       title: string;
@@ -20,9 +24,10 @@ export async function GET() {
         COUNT(CASE WHEN pv.page_type = 'live_demo_click' THEN 1 END) as live_clicks
        FROM projects p
        LEFT JOIN page_views pv ON pv.project_id = p.id
-       WHERE p.is_active = TRUE
+       WHERE p.is_active = TRUE AND p.user_id = $1
        GROUP BY p.id, p.title, p.order_index
-       ORDER BY p.order_index ASC, views DESC`
+       ORDER BY p.order_index ASC, views DESC`,
+      [userId]
     );
 
     const topProjects = rows.map(r => ({

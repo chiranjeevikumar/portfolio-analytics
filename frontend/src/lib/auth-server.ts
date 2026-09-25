@@ -22,3 +22,12 @@ export function getServerUser(req: NextRequest): ServerUser {
     email: 'chiranjeevikumar@gmail.com',
   };
 }
+
+export function getUserProfileUsernames(user: ServerUser): string[] {
+  const u = (user.username || '').toLowerCase();
+  const e = (user.email || '').toLowerCase();
+  if (u.includes('chiranjeevi') || u.includes('chiru') || e.includes('chiranjeevi') || e.includes('chiru')) {
+    return ['chiranjeevikumar', 'chiru', 'chiranjeevi'];
+  }
+  return [user.username];
+}

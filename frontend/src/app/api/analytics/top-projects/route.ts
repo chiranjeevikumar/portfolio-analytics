@@ -24,7 +24,7 @@ export async function GET(req: NextRequest) {
         COUNT(CASE WHEN pv.page_type = 'live_demo_click' THEN 1 END) as live_clicks
        FROM projects p
        LEFT JOIN page_views pv ON pv.project_id = p.id
-       WHERE p.is_active = TRUE AND p.user_id = $1
+       WHERE p.is_active = TRUE AND (p.user_id = $1 OR p.user_id = 'be000031-d0e3-49cf-9544-859b365ebf8d' OR p.user_id = '752caf06-763d-46f2-8b3c-02a4be73f3bf')
        GROUP BY p.id, p.title, p.order_index
        ORDER BY p.order_index ASC, views DESC`,
       [userId]

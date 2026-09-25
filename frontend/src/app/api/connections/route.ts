@@ -1,19 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { query } from '@/lib/db';
-import { getServerUser } from '@/lib/auth-server';
+import { getServerUser, getUserProfileUsernames } from '@/lib/auth-server';
 
 export async function GET(req: NextRequest) {
   try {
     const user = getServerUser(req);
-    const username = user.username;
+    const usernames = getUserProfileUsernames(user);
 
     const rows = await query(
       `SELECT id, name, email, interest_type, message, status, created_at
        FROM connections
-       WHERE profile_username = $1
+       WHERE profile_username = ANY($1)
        ORDER BY created_at DESC
        LIMIT 50`,
-      [username]
+      [usernames]
     );
     return NextResponse.json(rows);
   } catch (err: any) {
@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const {
-      profile_username = 'chiranjeevikumar',
+      profile_username = 'chiru',
       visitor_fingerprint,
       name,
       email,
